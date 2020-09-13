@@ -13,6 +13,9 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
+      - run:
+          name: "echo an env var that is part of our project"
+          command: echo $USER_NAME #
       # - run:
       #     command: ./manage.py test
       #     name: Test
