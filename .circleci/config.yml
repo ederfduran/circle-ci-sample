@@ -1,6 +1,8 @@
 version: 2.1
 
 orbs:
+  # A reusable package of YAML configuration that condenses
+  # repeated pieces of config into a single line of code.
   python: circleci/python@0.2.1
 
 jobs:
