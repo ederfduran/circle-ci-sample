@@ -24,7 +24,7 @@ jobs:
     docker:
       - image: circleci/python:3.8
     steps:
-      - run: echo "persist file between jobs" > output.txt
+      - run: echo "persist file between jobs" > ~/output.txt
       - persist_to_workspace:
           root: ~/
           paths:
