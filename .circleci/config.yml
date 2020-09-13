@@ -15,12 +15,34 @@ jobs:
       - python/save-cache
       - run:
           name: "echo an env var that is part of our project"
+          # ENV variable previusly created on circleCI
           command: echo $USER_NAME #
       # - run:
       #     command: ./manage.py test
       #     name: Test
+  save_file:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - run: echo "persist file between jobs" > output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
+
+  read_file:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: cat ~/output.txt
 
 workflows:
   main:
     jobs:
       - build-and-test
+      - save_file
+      - read_file:
+          requires:
+            - save_file
