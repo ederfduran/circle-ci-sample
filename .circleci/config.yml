@@ -51,6 +51,16 @@ jobs:
           at: ~/
       - run: cat ~/output.txt
 
+  simulate_failure:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - run: return 1
+      - run:
+          name: on error
+          command: echo "Failure!, so come clean up"
+          when: on_fail
+
 workflows:
   main:
     jobs:
@@ -59,3 +69,4 @@ workflows:
       - read_file:
           requires:
             - save_file
+      - simulate_failure
