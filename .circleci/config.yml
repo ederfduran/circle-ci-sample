@@ -55,11 +55,23 @@ jobs:
     docker:
       - image: circleci/python:3.8
     steps:
-      #- run: return 1
+      - run: return 1
       - run:
           name: on error
           command: echo "Failure!, so come clean up"
           when: on_fail
+
+  create_infrastructure:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Ensure backend infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file template.yml \
+              --stack-name my-stack
 
 workflows:
   main:
@@ -69,4 +81,4 @@ workflows:
       - read_file:
           requires:
             - save_file
-      - simulate_failure
+      - create_infrastructure
